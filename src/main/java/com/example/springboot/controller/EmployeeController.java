@@ -47,4 +47,9 @@ public class EmployeeController {
 
         return new ResponseEntity<Employee>(employeeService.updateEmployee(employee), HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/employees/filterByName")
+    public ResponseEntity<List<Employee>> fetchEmployeesByName(@RequestParam String name) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByName(name), HttpStatus.OK);
+    }
 }

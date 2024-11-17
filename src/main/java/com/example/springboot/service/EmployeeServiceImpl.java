@@ -3,6 +3,7 @@ package com.example.springboot.service;
 import com.example.springboot.model.Employee;
 import com.example.springboot.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -61,5 +62,10 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public Employee updateEmployee(Employee employee) {
         return employeeRepository.save(employee);
+    }
+
+    @Override
+    public List<Employee> getEmployeesByName(String name) {
+        return employeeRepository.findByName(name);
     }
 }
