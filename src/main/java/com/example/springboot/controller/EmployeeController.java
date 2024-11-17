@@ -52,4 +52,9 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> fetchEmployeesByName(@RequestParam String name) {
         return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByName(name), HttpStatus.OK);
     }
+
+    @GetMapping("/employees/filterByNameAndLocation")
+    public ResponseEntity<List<Employee>> fetchEmployeesByNameAndLocation(@RequestParam String name, @RequestParam String location) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByNameAndLocation(name, location), HttpStatus.OK);
+    }
 }
