@@ -46,8 +46,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee saveEmployee(Employee employee) {
-       // return employeeRepository.save(employee);
-        return null;
+        return employeeRepository.save(employee);
+        //return null;
     }
 
     @Override
@@ -63,13 +63,18 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public void deleteEmployee(Long id) {
        // employeeRepository.deleteById(id);
-        //employeeRepository.deleteById(id);
+        employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public Integer deleteEmployeeByName(String name) {
+        return employeeRepository.deleteEmployeeByName(name);
     }
 
     @Override
     public Employee updateEmployee(Employee employee) {
-        return null;
-      //  return employeeRepository.save(employee);
+       // return null;
+        return employeeRepository.save(employee);
     }
 
     @Override
@@ -86,5 +91,10 @@ public class EmployeeServiceImpl implements EmployeeService{
     public List<Employee> findByNameContaining(String name) {
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         return employeeRepository.findByNameContaining(name, sort);
+    }
+
+    @Override
+    public List<Employee> getEmployeesByNameOrLocation(String name, String location) {
+        return employeeRepository.getEmployeesByNameAndLocation(name, location);
     }
 }

@@ -35,6 +35,11 @@ public class EmployeeController {
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping("/deleteEmployees")
+    public ResponseEntity<String> deleteEmployeeByName(@RequestParam("name") String name) {
+        return new ResponseEntity<String>(employeeService.deleteEmployeeByName(name) + " No of records." , HttpStatus.OK);
+    }
+
     @PostMapping("/employees")
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
         return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
@@ -61,5 +66,10 @@ public class EmployeeController {
     @GetMapping("/employees/filterByKeyword")
     public ResponseEntity<List<Employee>> fetchEmployeesByKeyword(@RequestParam String name) {
         return new ResponseEntity<List<Employee>>(employeeService.findByNameContaining(name), HttpStatus.OK);
+    }
+
+    @GetMapping("/employees/filterByNameOrLocation")
+    public ResponseEntity<List<Employee>> fetchEmployeesByNameOrLocation(@RequestParam String name, @RequestParam String location) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByNameOrLocation(name, location), HttpStatus.OK);
     }
 }

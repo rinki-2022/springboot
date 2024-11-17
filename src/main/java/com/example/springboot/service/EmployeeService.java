@@ -30,8 +30,10 @@ public interface EmployeeService {
     Employee saveEmployee(Employee employee);
     Employee getSingleEmployee(Long id);
     void deleteEmployee(Long id);
+    Integer deleteEmployeeByName(String name);
     Employee updateEmployee(Employee employee);
     List<Employee> getEmployeesByName(String name);
     List<Employee> getEmployeesByNameAndLocation(String name, String location);
     List<Employee> findByNameContaining(String name);
+    List<Employee> getEmployeesByNameOrLocation(String name, String location);
 }
