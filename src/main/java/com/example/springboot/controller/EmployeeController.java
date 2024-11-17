@@ -1,6 +1,10 @@
 package com.example.springboot.controller;
 
+import com.example.springboot.model.Department;
 import com.example.springboot.model.Employee;
+import com.example.springboot.repository.DepartmentRepository;
+import com.example.springboot.repository.EmployeeRepository;
+import com.example.springboot.request.EmployeeRequest;
 import com.example.springboot.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,12 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getEmployees(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
@@ -41,7 +51,15 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
+    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
+        Department department = new Department();
+        department.setName(employeeRequest.getDepartment());
+
+        departmentRepository.save(department);
+        Employee employee = new Employee(employeeRequest);
+        employee.setDepartment(department);
+
+        employee = employeeRepository.save(employee);
         return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
     }
 
