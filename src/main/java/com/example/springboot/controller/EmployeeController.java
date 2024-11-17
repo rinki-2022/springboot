@@ -20,8 +20,8 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getEmployees() {
-        return new ResponseEntity<List<Employee>>(employeeService.getEmployees(), HttpStatus.OK);
+    public ResponseEntity<List<Employee>> getEmployees(@RequestParam Integer pageNumber, @RequestParam Integer pageSize) {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployees(pageNumber, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("/employees/{id}")
@@ -56,5 +56,10 @@ public class EmployeeController {
     @GetMapping("/employees/filterByNameAndLocation")
     public ResponseEntity<List<Employee>> fetchEmployeesByNameAndLocation(@RequestParam String name, @RequestParam String location) {
         return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByNameAndLocation(name, location), HttpStatus.OK);
+    }
+
+    @GetMapping("/employees/filterByKeyword")
+    public ResponseEntity<List<Employee>> fetchEmployeesByKeyword(@RequestParam String name) {
+        return new ResponseEntity<List<Employee>>(employeeService.findByNameContaining(name), HttpStatus.OK);
     }
 }
