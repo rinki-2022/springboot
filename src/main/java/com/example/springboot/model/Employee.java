@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
@@ -22,7 +24,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Name should not be null")
+    @NotBlank(message = "Name should not be null")
     private String name;
 
     private Integer age;
@@ -32,7 +34,7 @@ public class Employee {
     @Email(message = "Please enter valid email")
     private String email;
 
-    @NotNull(message = "Department should not be null")
+    @NotBlank(message = "Department should not be null")
     private String department;
 
     @CreationTimestamp
