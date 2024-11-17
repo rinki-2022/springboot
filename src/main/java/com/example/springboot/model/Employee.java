@@ -49,4 +49,6 @@ public class Employee {
     public Employee(EmployeeRequest employeeRequest) {
         this.name = employeeRequest.getName();
     }
+    public Employee() {
+    }
 }

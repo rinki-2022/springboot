@@ -52,15 +52,28 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
-        Department department = new Department();
-        department.setName(employeeRequest.getDepartment());
-
-        departmentRepository.save(department);
+//        Department department = new Department();
+//        department.setName(employeeRequest.getDepartment());
+//
+//        departmentRepository.save(department);
+//        Employee employee = new Employee(employeeRequest);
+//        employee.setDepartment(department);
+//
+//        employee = employeeRepository.save(employee);
+//        return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
+//
+        //one to many
         Employee employee = new Employee(employeeRequest);
-        employee.setDepartment(department);
+        employeeRepository.save(employee);
 
-        employee = employeeRepository.save(employee);
+        for (String dept : employeeRequest.getDepartment()){
+            Department department = new Department();
+            department.setName(dept);
+            department.setEmployee(employee);
+            departmentRepository.save(department);
+        }
         return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
+
     }
 
     @PutMapping("/employees/{id}")
@@ -89,5 +102,12 @@ public class EmployeeController {
     @GetMapping("/employees/filterByNameOrLocation")
     public ResponseEntity<List<Employee>> fetchEmployeesByNameOrLocation(@RequestParam String name, @RequestParam String location) {
         return new ResponseEntity<List<Employee>>(employeeService.getEmployeesByNameOrLocation(name, location), HttpStatus.OK);
+    }
+
+    @GetMapping("/employees/findByDepartmentName")
+    public ResponseEntity<List<Employee>> fetchEmployeesByDepartment(@RequestParam String name) {
+        //return new ResponseEntity<List<Employee>>(employeeRepository.findByDepartmentName(name), HttpStatus.OK);
+       return new ResponseEntity<List<Employee>>(employeeRepository.getEmployeeByDepartmentName(name), HttpStatus.OK);
+
     }
 }

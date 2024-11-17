@@ -1,5 +1,6 @@
 package com.example.springboot.model;
 
+import com.example.springboot.service.EmployeeService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -16,5 +17,9 @@ public class Department {
 
     @NotBlank(message = "Name should not be null")
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
 }

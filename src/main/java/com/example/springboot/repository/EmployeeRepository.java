@@ -26,4 +26,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Modifying
     @Query("DELETE FROM Employee WHERE name = :name")
     Integer deleteEmployeeByName(String name);
+
+    List<Employee> findByDepartmentName(String name);
+
+    @Query("FROM Employee where department.name=:name")
+    List<Employee>  getEmployeeByDepartmentName(String name);
 }
