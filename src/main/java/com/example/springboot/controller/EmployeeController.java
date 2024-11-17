@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,29 +20,31 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees() {
-        return employeeService.getEmployees();
+    public ResponseEntity<List<Employee>> getEmployees() {
+        return new ResponseEntity<List<Employee>>(employeeService.getEmployees(), HttpStatus.OK);
     }
 
     @GetMapping("/employees/{id}")
-    public Employee getEmployee(@PathVariable("id") Long id) {
-        return employeeService.getSingleEmployee(id);
+    public  ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
+        return new ResponseEntity<Employee>(employeeService.getSingleEmployee(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/employees")
-    public void deleteEmployee(@RequestParam("id") Long id) {
+    public ResponseEntity<HttpStatus> deleteEmployee(@RequestParam("id") Long id) {
         employeeService.deleteEmployee(id);
+        return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/employees")
-    public Employee saveEmployee(@Valid @RequestBody Employee employee) {
-        return employeeService.saveEmployee(employee);
+    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
+        return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
     }
 
     @PutMapping("/employees/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
         System.out.println("Saving the employee details with database: ");
         employee.setId(id);
-        return employeeService.updateEmployee(employee);
+
+        return new ResponseEntity<Employee>(employeeService.updateEmployee(employee), HttpStatus.NO_CONTENT);
     }
 }
